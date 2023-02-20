@@ -1,0 +1,61 @@
+import java.util.Random;
+public class lab1 {
+    public static void main(String[] args) {
+
+        //Coordinates of the Line
+        int Lx1 = 2;
+        int Ly1 = 6;
+        int Lx2 = 6;
+        int Ly2 = 8;
+
+        //Coordinates of the Rectangle
+        int Rx = 2;
+        int Ry = 2;
+        int Rlength = 2;
+        int Rwidth = 2;
+
+        //Coordinates of the Triangle
+        int Tx1 = 6;
+        int Ty1 = 3;
+        int Tx2 = 9;
+        int Ty2 = 3;
+        int Tx3 = 9;
+        int Ty3 = 7;
+
+        // Random coordinates of the Point between 0 and 10
+        Random rand = new Random();
+        int Px = rand.nextInt(11);
+        int Py = rand.nextInt(11);
+
+        // Checking a point relative to a line
+        double line1 = (Ly2 - Ly1) / (Lx2 - Lx1);
+        double line2 = Ly1 - line1 * Lx1;
+        double line3 = line1 * Px + line2;
+        if (Py > line3) {
+            System.out.println("The point is above the line");
+        } else if (Py < line3) {
+            System.out.println("The point is below the line");
+        } else {
+            System.out.println("The point is on the line");
+        }
+
+        // Checking a point relative to a rectangle
+        boolean isInsideRectangle = Px >= Rx && Px <= Rx + Rwidth && Py >= Ry && Py <= Ry + Rlength;
+        if (isInsideRectangle) {
+            System.out.println("The point is inside the rectangle");
+        } else {
+            System.out.println("The point is outside the rectangle");
+        }
+
+        // Check if the point is inside or outside the triangle
+        double totalArea = (Tx1 * (Ty2 - Ty3) + Tx2 * (Ty3 - Ty1) + Tx3 * (Ty1 - Ty2)) / 2;
+        double area1 = (Px * (Ty2 - Ty3) + Tx2 * (Ty3 - Py) + Tx3 * (Py - Ty2)) / 2;
+        double area2 = (Tx1 * (Py - Ty3) + Px * (Ty3 - Ty1) + Tx3 * (Ty1 - Py)) / 2;
+        double area3 = ((Tx1 * (Ty2 - Py) + Tx2 * (Py - Ty1) + Px * (Ty1 - Ty2)) / 2);
+        if (totalArea == area1 + area2 + area3) {
+            System.out.println("The point is inside the triangle");
+        } else {
+            System.out.println("The point is outside the triangle");
+        }
+    }
+}
