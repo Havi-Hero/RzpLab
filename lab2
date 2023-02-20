@@ -1,0 +1,216 @@
+import java.io.*;
+import java.util.Scanner;
+
+public class lab2 {
+
+    private static Triangle triangle;
+    private static Rectangle rectangle;
+    private static Circle circle;
+
+    // Read coordinates from file
+    public static void main(String[] args) {
+        ReadFile("Figures1.txt");
+        Scanner scanner = new Scanner(System.in);
+
+        // Choose figure for moving
+        boolean num = true;
+        while (num) {
+            System.out.println("Enter figure (1 - triangle, 2 - rectangle, 3 - circle, 0 - exit):");
+            int choice = scanner.nextInt();
+            switch (choice) {
+                case 1:
+                    move(triangle);
+                    break;
+                case 2:
+                    move(rectangle);
+                    break;
+                case 3:
+                    move(circle);
+                    break;
+                case 0:
+                    num = false;
+                    break;
+                default:
+                    System.out.println("Error 404 choice, try next time.");
+                    break;
+            }
+        }
+        scanner.close();
+    }
+
+    // Move figures
+    private static void move(Shape Figure) {
+        Scanner scanner = new Scanner(System.in);
+        boolean num1 = true;
+        while (num1) {
+            System.out.println("Position is: " + Figure);
+            System.out.println("Enter direction (w - up, a - left, s - down, d - right, q - quit):");
+            String Direction = scanner.nextLine();
+            switch (Direction) {
+                case "w":
+                    Figure.moveUp();
+                    break;
+                case "a":
+                    Figure.moveLeft();
+                    break;
+                case "s":
+                    Figure.moveDown();
+                    break;
+                case "d":
+                    Figure.moveRight();
+                    break;
+                case "q":
+                    num1 = false;
+                    break;
+                default:
+                    System.out.println("Error 404 choice, try next time.");
+                    break;
+            }
+        }
+        scanner.close();
+    }
+    // Read the coordinates of the figures
+    private static void ReadFile(String filename) {
+        try {
+            Scanner scanner = new Scanner(new File(filename));
+
+            String[] triangleCoords = scanner.nextLine().split(",");
+            triangle = new Triangle(Integer.parseInt(triangleCoords[0]),
+                    Integer.parseInt(triangleCoords[1]),
+                    Integer.parseInt(triangleCoords[2]),
+                    Integer.parseInt(triangleCoords[3]),
+                    Integer.parseInt(triangleCoords[4]),
+                    Integer.parseInt(triangleCoords[5]));
+
+            String[] rectangleCoords = scanner.nextLine().split(",");
+            rectangle = new Rectangle(  Integer.parseInt(rectangleCoords[0]),
+                    Integer.parseInt(rectangleCoords[1]),
+                    Integer.parseInt(rectangleCoords[2]),
+                    Integer.parseInt(rectangleCoords[3]));
+
+            String[] circleCoords = scanner.nextLine().split(",");
+            circle = new Circle(Integer.parseInt(circleCoords[0]),
+                    Integer.parseInt(circleCoords[1]),
+                    Integer.parseInt(circleCoords[2]));
+            scanner.close();
+
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found: " + filename);
+        }
+    }
+
+    // Prepare to moving
+    private static abstract class Shape {
+        protected int x, y;
+
+        public Shape(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        public abstract void moveUp();
+        public abstract void moveLeft();
+        public abstract void moveDown();
+        public abstract void moveRight();
+    }
+
+    // Moving Triangle
+    private static class Triangle extends Shape {
+        private int x2, y2, x3, y3;
+
+        public Triangle(int x1, int y1, int x2, int y2, int x3, int y3) {
+            super(x1, y1);
+            this.x2 = x2;
+            this.y2 = y2;
+            this.x3 = x3;
+            this.y3 = y3;
+        }
+
+        public void moveUp() {
+            y--;
+        }
+
+        public void moveLeft() {
+            x--;
+        }
+
+        public void moveDown() {
+            y++;
+        }
+
+        public void moveRight() {
+            x++;
+        }
+
+        @Override
+        public String toString() {
+            return "Triangle[(x1=" + x + ",y1=" + y + "),"
+                    + "(x2=" + x2 + ",y2=" + y2 + "),"
+                    + "(x3=" + x3 + ",y3=" + y3 + ")]";
+        }
+    }
+
+    // Moving Rectangle
+    private static class Rectangle extends Shape {
+        private int width, height;
+
+        public Rectangle(int x, int y, int width, int height) {
+            super(x, y);
+            this.width = width;
+            this.height = height;
+        }
+
+        public void moveUp() {
+            y--;
+        }
+
+        public void moveLeft() {
+            x--;
+        }
+
+        public void moveDown() {
+            y++;
+        }
+
+        public void moveRight() {
+            x++;
+        }
+
+        @Override
+        public String toString() {
+            return "Rectangle[(x=" + x + ",y=" + y + "),"
+                    + "(width=" + width + ",height=" + height + ")]";
+        }
+    }
+
+    // Moving Circle
+    private static class Circle extends Shape {
+        private int radius;
+
+        public Circle(int x, int y, int radius) {
+            super(x, y);
+            this.radius = radius;
+        }
+
+        public void moveUp() {
+            y--;
+        }
+
+        public void moveLeft() {
+            x--;
+        }
+
+        public void moveDown() {
+            y++;
+        }
+
+        public void moveRight() {
+            x++;
+        }
+
+        @Override
+        public String toString() {
+            return "Circle[(x=" + x + ",y=" + y + "),radius=" + radius + "]";
+        }
+    }
+}
