@@ -7,69 +7,7 @@ public class lab2 {
     private static Rectangle rectangle;
     private static Circle circle;
 
-    // Read coordinates from file
-    public static void main(String[] args) {
-        ReadFile("Figures1.txt");
-        Scanner scanner = new Scanner(System.in);
-
-        // Choose figure for moving
-        boolean num = true;
-        while (num) {
-            System.out.println("Enter figure (1 - triangle, 2 - rectangle, 3 - circle, 0 - exit):");
-            int choice = scanner.nextInt();
-            switch (choice) {
-                case 1:
-                    move(triangle);
-                    break;
-                case 2:
-                    move(rectangle);
-                    break;
-                case 3:
-                    move(circle);
-                    break;
-                case 0:
-                    num = false;
-                    break;
-                default:
-                    System.out.println("Error 404 choice, try next time.");
-                    break;
-            }
-        }
-        scanner.close();
-    }
-
-    // Move figures
-    private static void move(Shape Figure) {
-        Scanner scanner = new Scanner(System.in);
-        boolean num1 = true;
-        while (num1) {
-            System.out.println("Position is: " + Figure);
-            System.out.println("Enter direction (w - up, a - left, s - down, d - right, q - quit):");
-            String Direction = scanner.nextLine();
-            switch (Direction) {
-                case "w":
-                    Figure.moveUp();
-                    break;
-                case "a":
-                    Figure.moveLeft();
-                    break;
-                case "s":
-                    Figure.moveDown();
-                    break;
-                case "d":
-                    Figure.moveRight();
-                    break;
-                case "q":
-                    num1 = false;
-                    break;
-                default:
-                    System.out.println("Error 404 choice, try next time.");
-                    break;
-            }
-        }
-        scanner.close();
-    }
-    // Read the coordinates of the figures
+    // Read coordinates
     private static void ReadFile(String filename) {
         try {
             Scanner scanner = new Scanner(new File(filename));
@@ -100,10 +38,10 @@ public class lab2 {
     }
 
     // Prepare to moving
-    private static abstract class Shape {
+    private static abstract class Figure {
         protected int x, y;
 
-        public Shape(int x, int y) {
+        public Figure(int x, int y) {
             this.x = x;
             this.y = y;
         }
@@ -115,7 +53,7 @@ public class lab2 {
     }
 
     // Moving Triangle
-    private static class Triangle extends Shape {
+    private static class Triangle extends Figure {
         private int x2, y2, x3, y3;
 
         public Triangle(int x1, int y1, int x2, int y2, int x3, int y3) {
@@ -127,19 +65,24 @@ public class lab2 {
         }
 
         public void moveUp() {
-            y--;
+            y++;
+            y2++;
+            y3++;
         }
-
         public void moveLeft() {
             x--;
+            x2--;
+            x3--;
         }
-
         public void moveDown() {
-            y++;
+            y--;
+            y2--;
+            y3--;
         }
-
         public void moveRight() {
             x++;
+            x2++;
+            x3++;
         }
 
         @Override
@@ -151,7 +94,7 @@ public class lab2 {
     }
 
     // Moving Rectangle
-    private static class Rectangle extends Shape {
+    private static class Rectangle extends Figure {
         private int width, height;
 
         public Rectangle(int x, int y, int width, int height) {
@@ -161,7 +104,7 @@ public class lab2 {
         }
 
         public void moveUp() {
-            y--;
+            y++;
         }
 
         public void moveLeft() {
@@ -169,7 +112,7 @@ public class lab2 {
         }
 
         public void moveDown() {
-            y++;
+            y--;
         }
 
         public void moveRight() {
@@ -184,7 +127,7 @@ public class lab2 {
     }
 
     // Moving Circle
-    private static class Circle extends Shape {
+    private static class Circle extends Figure {
         private int radius;
 
         public Circle(int x, int y, int radius) {
@@ -193,7 +136,7 @@ public class lab2 {
         }
 
         public void moveUp() {
-            y--;
+            y++;
         }
 
         public void moveLeft() {
@@ -201,7 +144,7 @@ public class lab2 {
         }
 
         public void moveDown() {
-            y++;
+            y--;
         }
 
         public void moveRight() {
@@ -211,6 +154,117 @@ public class lab2 {
         @Override
         public String toString() {
             return "Circle[(x=" + x + ",y=" + y + "),radius=" + radius + "]";
+        }
+    }
+
+    public static void main(String[] args) {
+
+        // Read coordinates
+        ReadFile("Figures1.txt");
+        Scanner scanner = new Scanner(System.in);
+
+        // Main switch
+        boolean num = true;
+        while (num) {
+            System.out.println("Enter figure (1 - triangle, 2 - rectangle, 3 - circle, 0 - exit):");
+            int choice = scanner.nextInt();
+            switch (choice) {
+                case 1:
+                    // Move triangle
+                    Scanner scanner1 = new Scanner(System.in);
+                    boolean num1 = true;
+                    while (num1) {
+                        System.out.println("Position is: " + triangle);
+                        System.out.println("Enter direction (w - up, a - left, s - down, d - right, q - quit):");
+                        String Direction = scanner1.nextLine();
+                        switch (Direction) {
+                            case "w":
+                                triangle.moveUp();
+                                break;
+                            case "a":
+                                triangle.moveLeft();
+                                break;
+                            case "s":
+                                triangle.moveDown();
+                                break;
+                            case "d":
+                                triangle.moveRight();
+                                break;
+                            case "q":
+                                num1 = false;
+                                break;
+                            default:
+                                System.out.println("Error 404 choice, try next time.");
+                                break;
+                        }
+                    }
+                    break;
+                case 2:
+                   // Move rectangle
+                    Scanner scanner2 = new Scanner(System.in);
+                    boolean num2 = true;
+                    while (num2) {
+                        System.out.println("Position is: " + rectangle);
+                        System.out.println("Enter direction (w - up, a - left, s - down, d - right, q - quit):");
+                        String Direction = scanner2.nextLine();
+                        switch (Direction) {
+                            case "w":
+                                rectangle.moveUp();
+                                break;
+                            case "a":
+                                rectangle.moveLeft();
+                                break;
+                            case "s":
+                                rectangle.moveDown();
+                                break;
+                            case "d":
+                                rectangle.moveRight();
+                                break;
+                            case "q":
+                                num2 = false;
+                                break;
+                            default:
+                                System.out.println("Error 404 choice, try next time.");
+                                break;
+                        }
+                    }
+                    break;
+                case 3:
+                   // Move circle
+                    Scanner scanner3 = new Scanner(System.in);
+                    boolean num3 = true;
+                    while (num3) {
+                        System.out.println("Position is: " + circle);
+                        System.out.println("Enter direction (w - up, a - left, s - down, d - right, q - quit):");
+                        String Direction = scanner3.nextLine();
+                        switch (Direction) {
+                            case "w":
+                                circle.moveUp();
+                                break;
+                            case "a":
+                                circle.moveLeft();
+                                break;
+                            case "s":
+                                circle.moveDown();
+                                break;
+                            case "d":
+                                circle.moveRight();
+                                break;
+                            case "q":
+                                num3 = false;
+                                break;
+                            default:
+                                System.out.println("Error 404 choice, try next time.");
+                                break;
+                        }
+                    }
+                    break;
+                case 0:
+                    num = false;
+                    break;
+                default:
+                    System.out.println("There is no such figure!");
+            }
         }
     }
 }
