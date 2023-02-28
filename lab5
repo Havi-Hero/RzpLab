@@ -1,0 +1,99 @@
+import java.util.Random;
+
+public class lab5 {
+
+    // Random number
+    public static StringBuilder RandomNumber() {
+        StringBuilder generate = new StringBuilder();
+        Random random = new Random();
+
+        // Add 0
+        for (int i = 0; i < 39; i++) {
+            generate.append("0");
+        }
+
+        // Add 1
+        generate.append("1");
+
+        // Add 2
+        for (int i = 0; i < 39; i++) {
+            generate.append("2");
+        }
+
+        // Psevdo shuffle
+        for (int i = generate.length() - 1; i > 0; i--) {
+            int j = random.nextInt(i + 1);
+            char temp = generate.charAt(i);
+            generate.setCharAt(i, generate.charAt(j));
+            generate.setCharAt(j, temp);
+        }
+
+        //return generate.toString();
+        return generate;
+    }
+
+    public static void main(String[] args) {
+        StringBuilder number = RandomNumber();
+        System.out.println(">" + number + " is input number");
+
+        // Sum of length
+        int Sum = 0;
+        for (int i = 1; i < number.length(); i++) {
+            Sum = Sum + (number.charAt(i) - '0');
+        }
+
+        // Redactors program
+        while (number.charAt(0) == '0' || number.charAt(0) == '1' || number.charAt(0) == '2') {
+
+            if (number.charAt(0) == '1') {
+                int lastIndex = number.length() - 1;
+                //char index = number.charAt(lastIndex);
+                int index = Character.getNumericValue(number.charAt(lastIndex));
+                number.setCharAt(index, '2');
+                number.append('2');
+                Sum += 3;
+            }
+
+            if (number.charAt(0) == '2') {
+                int lastIndex = number.length() - 1;
+                //char index = number.charAt(lastIndex);
+                int index = Character.getNumericValue(number.charAt(lastIndex));
+                number.setCharAt(index, '2');
+                Sum += 2;
+            }
+
+            if (number.charAt(0) == '0') {
+                int lastIndex = number.length() - 1;
+                //char index = number.charAt(lastIndex);
+                int index = Character.getNumericValue(number.charAt(lastIndex));
+                number.setCharAt(index, '1');
+                Sum -= 1;
+            }
+
+            // Is a simple?
+            if (Simple(Sum)) {
+               // String result = number.toString();
+                System.out.println(">" + number + " is a simple number.");
+                break;
+            }
+            else {
+                System.out.println(">" + number + " is not a simple number.");
+                continue;
+            }
+        }
+    }
+
+    // Checking generate on simple
+    public static boolean Simple(int number1) {
+        if (number1 <= 1) {
+            return false;
+        }
+
+        for (int i = 2; i <= Math.sqrt(number1); i++) {
+            if (number1 % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
