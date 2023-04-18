@@ -2,6 +2,6 @@ public class DefaultModifiers {
     String defaultValue;
 
     void defaultMethod() {
-        System.out.println("Отлично! Ты получил доступ к  " + defaultValue);
+        System.out.println("Well! You have access to  " + defaultValue);
     }
 }
